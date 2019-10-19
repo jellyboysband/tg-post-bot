@@ -1,0 +1,7 @@
+root: true
+extends:
+- 'kasa'
+parserOptions:
+  sourceType: 'script'
+rules: 
+  no-console: "error"
