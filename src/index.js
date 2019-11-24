@@ -7,7 +7,6 @@ const product2markdown = require('./getMarkdownProduct')
 
 
 const wait = async (seconds, cb) => {
-
   await new Promise(resolve => setTimeout(resolve, 1000 * seconds))
   return cb()
 }
@@ -25,26 +24,34 @@ const getMessage = async (ch, tryCount = 0) => {
 
 }
 
+const send = async (ch) => {
+
+
+  const rawMessage = await getMessage(ch)
+
+  const { message, url, photo } = product2markdown(JSON.parse(rawMessage));
+
+  bot.telegram.sendPhoto('@cash_saver', { url: photo, filename: photo }, {
+    caption: message,
+    parse_mode: 'Markdown', disable_web_page_preview: true, reply_markup: Markup.inlineKeyboard([
+      Markup.urlButton('🔥КУПИТЬ🔥', url),
+    ]),
+  }).then(() => {
+    setTimeout(async () => await send(ch), process.env.TIMEOUT || 3600000)
+
+  })
+
+}
+
 rabbit
   .connect({
     username: 'rabbitmq',
     password: 'rabbitmq',
   })
   .then(async (conn) => {
-    conn.createChannel().then((ch) => {
-      ch.assertQueue(process.env.GET_Q, { durable: false, ack: true }).then(async () => {
-        const rawMessage = await getMessage(ch)
-        console.log("TCL: rawMessage", rawMessage)
-        const { message, url, photo } = product2markdown(JSON.parse(rawMessage));
-        bot.telegram.sendPhoto('@cash_saver', { url: photo, filename: photo }, {
-          caption: message,
-          parse_mode: 'Markdown', disable_web_page_preview: true, reply_markup: Markup.inlineKeyboard([
-            Markup.urlButton('🔥КУПИТЬ🔥', url),
-          ]),
-        }).then(() => {
-          conn.close()
-        })
-      });
+    conn.createChannel().then(async (ch) => {
+      await ch.assertQueue(process.env.GET_Q, { durable: false, ack: true })
+      await send(ch)
     });
   });
 
