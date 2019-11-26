@@ -28,7 +28,7 @@ const send = async ch => {
     const { message, url, photo } = product2markdown(JSON.parse(rawMessage));
 
     await bot.telegram.sendPhoto(
-      '@cash_saver',
+      process.env.CHANNEL||'@ali_ga_ng',
       { url: photo, filename: photo },
       {
         caption: message,
@@ -37,7 +37,7 @@ const send = async ch => {
         reply_markup: Markup.inlineKeyboard([Markup.urlButton('🔥КУПИТЬ🔥', url)]),
       },
     );
-    if (new Date().getHours() === 0 || new Date().getHours() === 23) {
+    if (new Date().getHours() === 3 || new Date().getHours() === 2) {
       await wait(8 * 3600, () => {
         console.log('Wake up, Neo ...');
       });
@@ -46,7 +46,7 @@ const send = async ch => {
       await send(ch);
     }, process.env.TIMEOUT || 3600000);
   } else {
-    if (new Date().getHours() === 0 || new Date().getHours() === 23) {
+    if (new Date().getHours() === 3 || new Date().getHours() === 2) {
       await wait(8 * 3600, () => {
         console.log('Wake up, Neo ...');
       });
