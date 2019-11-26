@@ -1,5 +1,6 @@
 require('dotenv').config();
 const rabbit = require('amqplib');
+const redis = require('./redis')
 // const Extra = require('telegraf/extra')
 const Markup = require('telegraf/markup');
 const { bot } = require('./bot');
@@ -12,9 +13,11 @@ const wait = async (seconds, cb) => {
 
 const getMessage = async ch => {
   console.log('try:');
-  const product = (await ch.get(process.env.GET_Q, { noAck: true })).content;
-  if (product) {
-    return product.toString();
+  const product = (await ch.get(process.env.GET_Q, { noAck: true }));
+  if (product.content) {
+    console.log("TCL: product", product.content.toString())
+
+    return product.content.toString();
   }
   return null;
 
@@ -25,23 +28,32 @@ const send = async ch => {
   console.log('TCL: new Date().getHours()', new Date().getHours());
   const rawMessage = await getMessage(ch);
   if (rawMessage) {
-    const { message, url, photo } = product2markdown(JSON.parse(rawMessage));
+    const { message, url, photo, hash } = await product2markdown(JSON.parse(rawMessage));
 
-    await bot.telegram.sendPhoto(
-      process.env.CHANNEL||'@ali_ga_ng',
+    const messageObj = await bot.telegram.sendPhoto(
+      process.env.CHANNEL || '@ali_ga_ng',
       { url: photo, filename: photo },
       {
         caption: message,
         parse_mode: 'Markdown',
         disable_web_page_preview: true,
-        reply_markup: Markup.inlineKeyboard([Markup.urlButton('🔥КУПИТЬ🔥', url)]),
+        reply_markup: Markup.inlineKeyboard([Markup.urlButton(`🔥КУПИТЬ🔥${hash ? ' 0' : ''}`, url)]),
       },
     );
+    try {
+      if (hash) {
+        await redis.set(`${process.env.REDIS_PREFIX}${hash}`, JSON.stringify({ channelId: process.env.CHANNEL, messageId: messageObj.messageId, inlineMessageId: 0, url }))
+      }
+    } catch (err) {
+      console.error(err)
+    }
     if (new Date().getHours() === 3 || new Date().getHours() === 2) {
       await wait(8 * 3600, () => {
         console.log('Wake up, Neo ...');
       });
     }
+    console.log("TCL: process.env.TIMEOUT", process.env.TIMEOUT)
+
     setTimeout(async () => {
       await send(ch);
     }, process.env.TIMEOUT || 3600000);

@@ -1,8 +1,11 @@
 dependencies:
   amqplib: 0.5.5
+  async-redis: 1.1.7
   dotenv: 8.2.0
+  node-fetch: 2.6.0
   socks-proxy-agent: 4.0.2
   telegraf: 3.33.3
+  wretch: 1.5.5
 devDependencies:
   eslint: 6.7.1
   eslint-config-airbnb-base: 14.0.0_12f19b26db0f3eb7900e904f1b0a002b
@@ -182,6 +185,15 @@ packages:
     dev: true
     resolution:
       integrity: sha512-z/WhQ5FPySLdvREByI2vZiTWwCnF0moMJ1hK9YQwDTHKh6I7/uSckMetoRGb5UBZPC1z0jlw+n/XCgjeH7y1AQ==
+  /async-redis/1.1.7:
+    dependencies:
+      redis: 2.8.0
+      redis-commands: 1.5.0
+    dev: false
+    engines:
+      node: '>=7.6.0'
+    resolution:
+      integrity: sha512-phpZe2/U+Ih4Lpy72KWF4+c8gymsUgzg6NV/TZUb8BLNn7soQewFxqcq9nndobfPmzXiuhMLi6GNBiQVIor/EA==
   /atob/2.1.2:
     dev: true
     engines:
@@ -557,6 +569,10 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
+  /double-ended-queue/2.1.0-0:
+    dev: false
+    resolution:
+      integrity: sha1-ED01J/0xUo9AGIEwyEHv3XgmTlw=
   /duplexer3/0.1.4:
     dev: true
     resolution:
@@ -646,7 +662,7 @@ packages:
   /eslint-import-resolver-node/0.3.2:
     dependencies:
       debug: 2.6.9
-      resolve: 1.13.0
+      resolve: 1.13.1
     dev: true
     resolution:
       integrity: sha512-sfmTqJfPSizWu4aymbPr4Iidp5yKm8yDkHp+Ir3YiTHiiDfxh69mOUsmiqW6RZ9zRXFaF64GtYmN7e+8GHBv6Q==
@@ -672,7 +688,7 @@ packages:
       minimatch: 3.0.4
       object.values: 1.1.0
       read-pkg-up: 2.0.0
-      resolve: 1.13.0
+      resolve: 1.13.1
     dev: true
     engines:
       node: '>=4'
@@ -1704,7 +1720,7 @@ packages:
   /normalize-package-data/2.5.0:
     dependencies:
       hosted-git-info: 2.8.5
-      resolve: 1.13.0
+      resolve: 1.13.1
       semver: 5.7.1
       validate-npm-package-license: 3.0.4
     dev: true
@@ -2074,6 +2090,26 @@ packages:
       node: '>=0.10'
     resolution:
       integrity: sha512-1JU/8q+VgFZyxwrJ+SVIOsh+KywWGpds3NTqikiKpDMZWScmAYyKIgqkO+ARvNWJfXeXR1zxz7aHF4u4CyH6vQ==
+  /redis-commands/1.5.0:
+    dev: false
+    resolution:
+      integrity: sha512-6KxamqpZ468MeQC3bkWmCB1fp56XL64D4Kf0zJSwDZbVLLm7KFkoIcHrgRvQ+sk8dnhySs7+yBg94yIkAK7aJg==
+  /redis-parser/2.6.0:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-Uu0J2srBCPGmMcB+m2mUHnoZUEs=
+  /redis/2.8.0:
+    dependencies:
+      double-ended-queue: 2.1.0-0
+      redis-commands: 1.5.0
+      redis-parser: 2.6.0
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha512-M1OkonEQwtRmZv4tEWF2VgpG0JWJ8Fv1PhlgT5+B+uNq2cA3Rt1Yt/ryoR+vQNOQcIEgdCdfH0jr3bDpihAw1A==
   /regex-not/1.0.2:
     dependencies:
       extend-shallow: 3.0.2
@@ -2134,12 +2170,12 @@ packages:
     dev: true
     resolution:
       integrity: sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=
-  /resolve/1.13.0:
+  /resolve/1.13.1:
     dependencies:
       path-parse: 1.0.6
     dev: true
     resolution:
-      integrity: sha512-HHZ3hmOrk5SvybTb18xq4Ek2uLqLO5/goFCYUyvn26nWox4hdlKlfC/+dChIZ6qc4ZeYcN9ekTz0yyHsFgumMw==
+      integrity: sha512-CxqObCX8K8YtAhOBRg+lrcdn+LK+WYOS8tSjqSFbjtrI5PnS63QPhZl4+yKfrU9tdsbMu9Anr/amegT87M9Z6w==
   /restore-cursor/3.1.0:
     dependencies:
       onetime: 5.1.0
@@ -2737,6 +2773,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
+  /wretch/1.5.5:
+    dev: false
+    resolution:
+      integrity: sha512-wGd+AkjuAyg+kvLrG5v2Irp7ShltU5+iscqUs13K/ZLS+thuF6s2buFT2UZfKedEuxY+pyTL7+zQ/Qd3g9uO7A==
   /write-file-atomic/2.4.3:
     dependencies:
       graceful-fs: 4.2.3
@@ -2765,13 +2805,16 @@ packages:
       integrity: sha1-HBH5IY8HYImkfdUS+TxmmaaoHVI=
 specifiers:
   amqplib: ^0.5.5
+  async-redis: ^1.1.7
   dotenv: ^8.2.0
-  eslint: ^6.5.1
+  eslint: ^6.7.1
   eslint-config-airbnb-base: ^14.0.0
-  eslint-config-prettier: ^6.4.0
+  eslint-config-prettier: ^6.7.0
   eslint-plugin-import: ^2.18.2
   eslint-plugin-prettier: ^3.1.1
-  nodemon: ^1.18.7
-  prettier: ^1.18.2
+  node-fetch: ^2.6.0
+  nodemon: ^1.19.4
+  prettier: ^1.19.1
   socks-proxy-agent: ^4.0.2
-  telegraf: ^3.25.5
+  telegraf: ^3.33.3
+  wretch: ^1.5.5
