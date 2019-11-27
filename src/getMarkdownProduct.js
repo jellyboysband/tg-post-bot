@@ -1,11 +1,11 @@
 const qs = require('querystring');
 
-const wretch = require('wretch').defaults({ headers: { Accept: 'application/json' } });
+let wretch = require('wretch');
 wretch().polyfills({
   fetch: require('node-fetch'),
   URLSearchParams: require('url').URLSearchParams,
 });
-
+wretch().defaults({ headers: { Accept: 'application/json' } });
 const product2markdown = async product => {
   let result = '';
   result += `${product.title}\n`;
@@ -29,6 +29,8 @@ const product2markdown = async product => {
     // eslint-disable-next-line no-console
     console.error(err);
   }
+
+  console.log('TCL: shortUrl', shortUrl);
   return {
     message: result,
     url: shortUrl || longUrl,
