@@ -50,7 +50,7 @@ const send = async ch => {
           `${process.env.REDIS_PREFIX}${hash}`,
           JSON.stringify({
             channelId: process.env.CHANNEL,
-            messageId: messageObj.messageId,
+            messageId: messageObj.message_id,
             inlineMessageId: 0,
             url,
           }),
