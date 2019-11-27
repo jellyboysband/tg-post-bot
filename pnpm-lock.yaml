@@ -9,6 +9,7 @@ dependencies:
 devDependencies:
   eslint: 6.7.1
   eslint-config-airbnb-base: 14.0.0_12f19b26db0f3eb7900e904f1b0a002b
+  eslint-config-kasa: 0.5.0
   eslint-config-prettier: 6.7.0_eslint@6.7.1
   eslint-plugin-import: 2.18.2_eslint@6.7.1
   eslint-plugin-prettier: 3.1.1_eslint@6.7.1+prettier@1.19.1
@@ -649,6 +650,12 @@ packages:
       eslint-plugin-import: ^2.18.2
     resolution:
       integrity: sha512-2IDHobw97upExLmsebhtfoD3NAKhV4H0CJWP3Uprd/uk+cHuWYOczPVxQ8PxLFUAw7o3Th1RAU8u1DoUpr+cMA==
+  /eslint-config-kasa/0.5.0:
+    dev: true
+    engines:
+      node: '>= 8.0.0'
+    resolution:
+      integrity: sha512-flAHTVnPHgtIEUY2L9Dim9LL38GH1kM5exRjoyRYWtLkZP8hKe33OTlt98iINqyRD5ddPHom462jumf0d9I2ww==
   /eslint-config-prettier/6.7.0_eslint@6.7.1:
     dependencies:
       eslint: 6.7.1
@@ -2809,6 +2816,7 @@ specifiers:
   dotenv: ^8.2.0
   eslint: ^6.7.1
   eslint-config-airbnb-base: ^14.0.0
+  eslint-config-kasa: ^0.5.0
   eslint-config-prettier: ^6.7.0
   eslint-plugin-import: ^2.18.2
   eslint-plugin-prettier: ^3.1.1

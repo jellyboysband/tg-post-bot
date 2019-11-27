@@ -1,7 +1,7 @@
 root: true
 extends:
-- 'kasa'
+  - "kasa"
 parserOptions:
-  sourceType: 'script'
-rules: 
-  no-console: "error"
+  sourceType: "script"
+rules:
+  no-console: 0

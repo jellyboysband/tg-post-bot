@@ -1,6 +1,6 @@
 require('dotenv').config();
 const rabbit = require('amqplib');
-const redis = require('./redis')
+const redis = require('./redis');
 // const Extra = require('telegraf/extra')
 const Markup = require('telegraf/markup');
 const { bot } = require('./bot');
@@ -13,9 +13,9 @@ const wait = async (seconds, cb) => {
 
 const getMessage = async ch => {
   console.log('try:');
-  const product = (await ch.get(process.env.GET_Q, { noAck: true }));
+  const product = await ch.get(process.env.GET_Q, { noAck: true });
   if (product.content) {
-    console.log("TCL: product", product.content.toString())
+    console.log('TCL: product', product.content.toString());
 
     return product.content.toString();
   }
@@ -37,22 +37,32 @@ const send = async ch => {
         caption: message,
         parse_mode: 'Markdown',
         disable_web_page_preview: true,
-        reply_markup: Markup.inlineKeyboard([Markup.urlButton(`🔥КУПИТЬ🔥${hash ? ' 0' : ''}`, url)]),
+        reply_markup: Markup.inlineKeyboard([
+          Markup.urlButton(`🔥КУПИТЬ🔥${hash ? ' 0' : ''}`, url),
+        ]),
       },
     );
     try {
       if (hash) {
-        await redis.set(`${process.env.REDIS_PREFIX}${hash}`, JSON.stringify({ channelId: process.env.CHANNEL, messageId: messageObj.messageId, inlineMessageId: 0, url }))
+        await redis.set(
+          `${process.env.REDIS_PREFIX}${hash}`,
+          JSON.stringify({
+            channelId: process.env.CHANNEL,
+            messageId: messageObj.messageId,
+            inlineMessageId: 0,
+            url,
+          }),
+        );
       }
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
     if (new Date().getHours() === 3 || new Date().getHours() === 2) {
       await wait(8 * 3600, () => {
         console.log('Wake up, Neo ...');
       });
     }
-    console.log("TCL: process.env.TIMEOUT", process.env.TIMEOUT)
+    console.log('TCL: process.env.TIMEOUT', process.env.TIMEOUT);
 
     setTimeout(async () => {
       await send(ch);
