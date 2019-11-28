@@ -71,7 +71,7 @@ const send = async ch => {
       await send(ch);
     }, process.env.TIMEOUT || 3600000);
   } else {
-    if (new Date().getHours() === 3 || new Date().getHours() === 2) {
+    if (new Date().getHours() === 22 || new Date().getHours() === 21) {
       await wait(8 * 3600, () => {
         console.log('Wake up, Neo ...');
       });
