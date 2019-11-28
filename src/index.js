@@ -39,7 +39,7 @@ const send = async ch => {
         parse_mode: 'Markdown',
         disable_web_page_preview: true,
         reply_markup: Markup.inlineKeyboard([
-          Markup.urlButton(`🔥КУПИТЬ🔥${hash ? ' 0' : ''}`, url),
+          Markup.urlButton(`🔥КУПИТЬ🔥${hash ? ' 0❤️' : ''}`, url),
         ]),
       },
     );
