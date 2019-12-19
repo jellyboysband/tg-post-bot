@@ -7,6 +7,7 @@ wretch().polyfills({
 });
 wretch().defaults({ headers: { Accept: 'application/json' } });
 const product2markdown = async product => {
+  product.url = product.url.replace('aliexpress.ru', 'aliexpress.com');
   let result = '';
   result += `${product.title}\n`;
   result += '';
